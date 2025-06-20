@@ -1,0 +1,243 @@
+:root {
+  --font-family: 'Inter', sans-serif;
+  --bg: #f0f2f5;
+  --card-bg: #fff;
+  --primary: #4a90e2;
+  --primary-hover: #357ab8;
+  --text: #333;
+  --muted: #666;
+  --radius: 8px;
+  --small: 0.85rem;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-family);
+  background: var(--bg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+  padding: 0 16px;
+  text-align: center;
+}
+
+.header {
+  margin-bottom: 12px;
+}
+.header-logo {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  object-fit: contain;
+}
+
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: var(--muted);
+  margin-bottom: 20px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+/* Radios em linha e responsivo */
+.radio-group {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+.radio-group label {
+  font-size: 1rem;
+  color: var(--text);
+  cursor: pointer;
+}
+.radio-group input {
+  margin-right: 6px;
+}
+
+/* Checkbox: frase única, menor, sem negrito geral */
+.checkbox-group label {
+  display: block;
+  font-size: var(--small);
+  color: var(--text);
+  line-height: 1.4;
+  font-weight: normal;
+  margin-bottom: 16px;
+}
+.checkbox-group input {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.checkbox-group em {
+  font-style: italic;
+}
+.checkbox-group strong {
+  font-weight: bold;
+}
+
+/* Inputs e textarea */
+input[type="text"],
+input[type="tel"],
+textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  color: var(--text);
+}
+
+/* Botões */
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary);
+  color: #fff;
+  font-size: 1rem;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+.btn-secondary {
+  width: 100%;
+  padding: 12px;
+  background: var(--card-bg);
+  color: var(--primary);
+  border: 2px solid var(--primary);
+  font-size: 1rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.btn-secondary:hover {
+  background: var(--primary);
+  color: #fff;
+}
+
+/* Avaliação */
+.rating-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.rating-container img {
+  width: 48px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: transform 0.2s, opacity 0.2s;
+}
+.rating-container img:hover {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+/* Destacar o emoji selecionado */
+.rating-btn.selected {
+  transform: scale(1.2);
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+}
+
+/* Caixa de comentário */
+.comment-box textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  color: var(--text);
+  margin-bottom: 12px;
+  margin-top: 30px;
+}
+
+/* Agradecimento */
+.thank-you p {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-top: 20px;
+}
+
+/* Título da survey */
+body.survey-page .survey-title {
+  font-size: 1.75rem;
+  margin-bottom: 16px;
+  color: var(--text);
+}
+
+/* Ocultar elementos */
+.hidden {
+  display: none;
+}
+/* Home */
+.home-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--bg);
+}
+.home-container h1 {
+  font-size: 1.75rem;
+  margin-bottom: 20px;
+}
+.qr-code {
+  width: 250px;
+  max-width: 80%;
+  margin-bottom: 30px;
+}
+.home-container .btn-primary {
+  width: 200px;
+}
+
+/* No cadastro, alinhar botões lado a lado */
+.buttons-group {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+}
+
+/* Survey: agradecimento e redirecionamento */
+body.survey-page .thank-you p {
+  font-size: 1.5rem;
+  margin-top: 30px;
+}
+
+

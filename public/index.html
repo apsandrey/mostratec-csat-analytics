@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MostraTec CSAT – Home</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="home-container">
+    <h1>Avalie nosso trabalho</h1>
+    <img src="assets/qrcode.png" alt="QR Code" class="qr-code"/>
+    <button id="go-register" class="btn-primary">Avaliar</button>
+  </div>
+
+  <script>
+    document.getElementById('go-register').addEventListener('click', () => {
+      window.location.href = 'cadastro.html';
+    });
+  </script>
+</body>
+</html>
