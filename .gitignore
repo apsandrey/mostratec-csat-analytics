@@ -1,6 +1,6 @@
-# Node
+# Node.js
 /backend/node_modules/
-/backend/package-lock.json
+# (Não ignore o package-lock.json)
 
 # Python
 /venv/

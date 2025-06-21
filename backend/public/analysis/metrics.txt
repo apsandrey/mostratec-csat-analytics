@@ -1,5 +1,9 @@
-Total de respostas: 66
+Total de avaliações recebidas: 70
+Avaliações únicas (consideradas): 66
+Avaliações duplicadas descartadas: 4
+
 Soma de notas: 327
 Promotores: 66
+Neutros: 0
 Detratores: 0
 NPS estimado: 100.0%

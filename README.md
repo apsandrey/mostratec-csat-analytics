@@ -14,30 +14,37 @@ Desenvolver uma aplicação funcional que utiliza técnicas de Ciência de Dados
 
 ### Front-end Web (HTML/CSS/JS)
 
-* Página **Home** (`index.html`) com QR Code, botão para iniciar avaliação e engrenagem para acesso ao **Painel Administrativo**.
-* Página de **Cadastro** (`cadastro.html`) para captura de nome, papel (Aluno/Professor/Visitante), consentimento obrigatório LGPD e telefone com validação.
-* Página **Survey** (`survey.html`) para coleta de notas (emojis) e comentários opcionais válidos para qualquer nota.
+- Página **Home** (`index.html`) com QR Code, botão para iniciar avaliação e engrenagem para acesso ao **Painel Administrativo**.
+- Página de **Cadastro** (`cadastro.html`) para captura de nome, papel (Aluno/Professor/Visitante), consentimento obrigatório LGPD e telefone com validação.
+- Página **Survey** (`survey.html`) para coleta de notas (emojis) e comentários opcionais válidos para qualquer nota.
 
 ### Painel Administrativo (Bootstrap)
 
-* Acesso via engrenagem no menu superior da página Home (`index.html`).
-* Autenticação segura com credenciais padrão (usuário: `admin`, senha: `admin`).
-* Dashboard com gráficos, métricas gerais e detalhadas sobre avaliações.
-* Visualização completa das avaliações realizadas.
-* Funcionalidade para sorteio randômico de um avaliador válido com telefone.
+- Acesso via engrenagem no menu superior da página Home (`index.html`).
+- Autenticação segura com credenciais padrão (usuário: `admin`, senha: `admin`).
+- Dashboard com **gráficos**, **métricas agrupadas por bloco** e **resumo por papel**.
+- Visualização completa das avaliações realizadas.
+- Funcionalidade para sorteio randômico de um avaliador válido com telefone.
+
+> 💡 O painel de métricas agora é segmentado em blocos:
+>
+> - 📊 **Avaliações**: totais, únicas e duplicadas  
+> - 🧮 **Indicadores**: soma das notas e NPS estimado  
+> - 🎯 **Classificação NPS**: Detratores (🔴), Neutros (🟡), Promotores (🟢)
 
 ### Back-end (Node.js/Express)
 
-* Servidor com endpoints seguros para validação e armazenamento dos dados.
-* Autenticação com sessões gerenciadas.
-* Armazenamento persistente em SQLite (`data.db`).
+- Servidor com endpoints seguros para validação e armazenamento dos dados.
+- Autenticação com sessões gerenciadas.
+- Armazenamento persistente em SQLite (`data.db`).
+- Executa automaticamente o script `generate_reports.py` ao acessar o dashboard (`/admin/dashboard`), garantindo gráficos e métricas atualizados.
 
 ### Análise de Dados (Python)
 
-* Script `generate_reports.py` responsável pela limpeza, pré-processamento e análises:
-
-  * Remoção automática de duplicidades por telefone.
-  * Geração automática de métricas, histogramas e resumos.
+- Script `generate_reports.py` responsável pela limpeza, pré-processamento e análises:
+  - Remoção automática de duplicidades por telefone.
+  - Geração de arquivos gráficos e relatórios (.png, .txt, .json).
+  - Cálculo de métricas **incluindo Neutros**, além de Detratores e Promotores.
 
 ---
 
@@ -106,8 +113,11 @@ python -m venv venv
 source venv/bin/activate # Linux/Mac
 .\venv\Scripts\activate # Windows
 pip install pandas numpy matplotlib
+```
 
-# Gerar relatórios de análise
+O script `generate_reports.py` será executado automaticamente ao acessar o dashboard administrativo. Para rodar manualmente:
+
+```bash
 python analysis/generate_reports.py
 ```
 
@@ -152,7 +162,7 @@ O script Python `generate_reports.py` gera automaticamente:
 
 * `histogram.png`: Distribuição das notas.
 * `bar_by_role.png`: Avaliações segmentadas por papel.
-* `metrics.txt`: Métricas gerais (NPS).
+* `metrics.txt`: Métricas agrupadas por bloco (NPS, soma, duplicadas, etc.)
 * `role_summary.json`: Resumo detalhado por tipo de usuário.
 
 ---
