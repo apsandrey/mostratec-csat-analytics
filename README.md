@@ -169,9 +169,10 @@ O script Python `generate_reports.py` gera automaticamente:
 
 ## 🎥 Apresentação Final
 
-* Demonstre o fluxo completo da aplicação (Home → Cadastro → Survey).
-* Demonstre login e funcionalidades do painel administrativo.
-* Explique brevemente os insights obtidos pela análise exploratória.
+* Demonstrando o fluxo completo da aplicação (Home → Cadastro → Survey).
+* Demonstrando login e funcionalidades do painel administrativo.
+* Insights obtidos pela análise exploratória.
+* [Acesse aqui o vídeo da apresentação](https://drive.google.com/file/d/1OAyQqkQK20JRZxU105OCMT4xs4aOSwHP/view?usp=sharing)
 
 ---
 
