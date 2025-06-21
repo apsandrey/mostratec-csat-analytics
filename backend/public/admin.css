@@ -1,0 +1,37 @@
+/* SIDEBAR FIXA */
+.admin-sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 200px;
+  height: 100vh;
+  overflow-y: auto;
+  background-color: #343a40;
+  padding-top: 1rem;
+}
+
+/* empurra o conteúdo principal para a direita */
+.main-content {
+  margin-left: 200px;
+  padding: 1rem;
+}
+
+/* LINKS NA SIDEBAR */
+.admin-sidebar .nav-link {
+  color: #adb5bd;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  margin-bottom: 0.25rem;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.admin-sidebar .nav-link:hover {
+  background-color: #495057;
+  color: #fff;
+}
+
+.admin-sidebar .nav-link.active {
+  background-color: #212529;
+  color: #fff;
+  font-weight: bold;
+}

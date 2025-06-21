@@ -1,0 +1,16 @@
+# Node
+/backend/node_modules/
+/backend/package-lock.json
+
+# Python
+/venv/
+/.venv/
+__pycache__/
+*.py[cod]
+
+# IDEs
+.vscode/
+.idea/
+
+# Logs
+*.log

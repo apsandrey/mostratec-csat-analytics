@@ -1,0 +1,17 @@
+[
+  {
+    "role": "aluno",
+    "total_respostas": 35,
+    "media_nota": 4.942857142857143
+  },
+  {
+    "role": "professor",
+    "total_respostas": 2,
+    "media_nota": 5.0
+  },
+  {
+    "role": "visitante",
+    "total_respostas": 29,
+    "media_nota": 4.9655172413793105
+  }
+]

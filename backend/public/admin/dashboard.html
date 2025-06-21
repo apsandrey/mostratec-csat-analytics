@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Painel Admin</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/admin.css">
+</head>
+<body class=" d-flex">  
+  <nav class="admin-sidebar p-3 vh-100">
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a href="/" class="nav-link">Voltar para Avaliação</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/dashboard" class="nav-link active">Dashboards</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/sorteio" class="nav-link">Sorteio</a>
+      </li>
+      <li class="nav-item">
+        <a href="/admin/evaluations" class="nav-link">Visualizar Avaliações</a>
+      </li>
+      <li class="nav-item">
+        <form action="/admin/logout" method="post">
+          <button class="btn btn-link nav-link">Sair</button>
+        </form>
+      </li>
+    </ul>
+  </nav>
+  <main class="main-content">
+    <h1 class="mb-4">Bem-vindo ao Painel Admin</h1>
+    <h2>📊 Distribuição de Notas CSAT<p>Comunicação Eficiente em Viagens</p></h2>
+    <img src="/analysis/histogram.png" class="img-fluid mb-4">
+    <h2>📋 Respostas por Papel</h2>
+    <img src="/analysis/bar_by_role.png" class="img-fluid mb-4">
+    <h2>📈 Métricas</h2>
+    <pre id="metrics" class="bg-light p-2 mb-4">Carregando métricas...</pre>
+    <h2>📑 Resumo por Papel</h2>
+    <table id="role-table" class="table table-bordered mb-4">
+      <thead>
+        <tr>
+          <th>Papel</th>
+          <th>Total Respostas</th>
+          <th>Média Nota</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <script>
+      fetch('/analysis/metrics.txt')
+        .then(r => r.text())
+        .then(txt => document.getElementById('metrics').innerText = txt.trim());
+      fetch('/analysis/role_summary.json')
+        .then(r => r.json())
+        .then(arr => {
+          const tb = document.querySelector('#role-table tbody');
+          arr.forEach(r => {
+            tb.innerHTML += `<tr>
+              <td>${r.role}</td>
+              <td>${r.total_respostas}</td>
+              <td>${r.media_nota.toFixed(2)}</td>
+            </tr>`;
+          });
+        });
+    </script>
+  </main>
+</body>
+</html>
