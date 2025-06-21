@@ -1,0 +1,5 @@
+Total de respostas: 66
+Soma de notas: 327
+Promotores: 66
+Detratores: 0
+NPS estimado: 100.0%
