@@ -1,142 +1,177 @@
-# MostraTec CSAT
+# 📊 MostraTec CSAT – Trabalho Final de Ciência de Dados
 
-Este projeto é uma aplicação *lean* de CSAT (Customer Satisfaction) para a MostraTec, composta por três páginas HTML/JS/CSS e um back-end em Node.js/Express com SQLite:
-
-1. **Home** (`index.html`) — título, QR Code e botão “Avaliar”
-2. **Cadastro** (`cadastro.html`) — captura nome, papel (aluno/professor/visitante), consentimento LGPD e telefone (com máscara). Inclui botão **Voltar** para a Home.
-3. **Survey** (`survey.html`) — coleta nota (1–5 via emojis) e, se nota ≤ 2, comentário. Após envio, exibe “Obrigado” e, em 5 segundos, retorna automaticamente à Home.
-
-> **Regras de negócio**
->
-> * Consentimento LGPD obrigatório para sorteio; primeiro clique sem consentimento exibe alerta e permanece na página.
-> * Telefone inválido (menos de 14 caracteres) exibe alerta, mas prossegue sem sorteio.
-> * Telefone duplicado (via API `/api/check-phone`) alerta “já participa do sorteio” e prossegue.
-> * Não há operações de *update* ou *delete*, apenas *insert* e validações.
-
-## 🚀 Tecnologias
-
-* **Node.js** + **Express**: servidor web e API REST
-* **SQLite**: armazenamento em `data.db`
-* **JavaScript**, **HTML**, **CSS**: front-end estático em `public/`
-
-## 📂 Estrutura de Pastas
-
-```
-mostratec-csat/
-│
-├─ package.json            # dependências e scripts (start)
-├─ app.js                  # servidor Express (porta via env PORT)
-├─ db.js                   # inicialização do SQLite (tabela evaluations)
-├─ data.db                 # banco de dados (persistido entre reinícios)
-├─ submissions.json        # (opcional) log JSON de todas as submissões
-├─ public/
-│  ├─ assets/
-│  │  ├─ qrcode.png        # QR Code grande para página Home
-│  │  └─ emojis/           # emojis do CSAT (PNG)
-│  ├─ index.html           # página Home com QR Code
-│  ├─ cadastro.html        # página de cadastro do usuário
-│  ├─ survey.html          # página de avaliação (CSAT)
-│  ├─ style.css            # estilos gerais e componentes
-│  └─ script.js            # lógica de navegação, validações e fetch
-```
-
-## ⚙️ Instalação
-
-1. Clone ou copie este projeto.
-2. Na raiz, instale dependências:
-
-   ```bash
-   npm install
-   ```
-3. Defina a porta (opcional; padrão 3000) e inicie:
-
-   ```bash
-   # PowerShell
-   $env:PORT = 3000
-   npm start
-   ```
-4. Abra o navegador em `http://localhost:3000` para acessar a **Home**.
-
-## 🖥️ Modo de Uso
-
-1. **Home** (`/index.html`)
-
-   * Exibe “Avalie nosso trabalho”, QR Code grande e botão **Avaliar**.
-   * Ao clicar, vai para **Cadastro**.
-2. **Cadastro** (`/cadastro.html`)
-
-   * Informe **nome**, escolha **papel** (Aluno/Professor/Visitante).
-   * Marque o consentimento (LGPD) para habilitar o campo **Celular**.
-   * **Voltar** retorna à Home; **Iniciar Avaliação** segue para Survey.
-   * Regras de alerta e validação conforme o enunciado.
-3. **Survey** (`/survey.html`)
-
-   * Selecione nota de 1 a 5 (via emojis).
-   * Se 1–2, exibe campo de comentário.
-   * Ao enviar, armazena no banco e mostra “👏 Obrigado pela avaliação!”.
-   * Após 5 segundos, redireciona automaticamente à Home.
-
-## 🔗 Endpoints da API
-
-* **GET** `/api/check-phone?phone=...` — retorna `{ exists: true|false }` para validação de duplicidade
-* **POST** `/api/submit` — payload JSON `{ name, role, consent, phone, rating, comment }`, retorna `{ success: true }`
-* **GET** `/api/evaluations` — retorna JSON de todas as submissões com todos os campos
-
-## 📊 Acesso aos Dados
-
-### 1. Via API REST
-
-acesse `http://localhost:3000/api/evaluations` para obter todos os registros em JSON.
-
-### 2. Via SQLite CLI
-
-```bash
-sqlite3 data.db
-SELECT * FROM evaluations;
-.exit
-```
-
-### 3. Backup JSON
-
-o arquivo `submissions.json` contém um array com todos os registros:
-
-```json
-[
-  {
-    "id": 1,
-    "timestamp": "2025-06-10T19:45:12.345Z",
-    "name": "João Silva",
-    "role": "aluno",
-    "consent": 1,
-    "phone": "(34) 91234-5678",
-    "rating": 5,
-    "comment": null
-  },
-  ...
-]
-```
-
-## 📈 Análise de Dados
-
-Use Python (`requests` + `pandas`) ou diretamente o CLI SQLite. Exemplo em Python:
-
-```python
-import sqlite3
-import pandas as pd
-
-conn = sqlite3.connect('data.db')
-df = pd.read_sql_query('SELECT * FROM evaluations', conn)
-print(df['rating'].value_counts())  # distribuição de notas
-
-prom = df[df.rating >= 4].shape[0]
-det = df[df.rating <= 2].shape[0]
-print('NPS:', (prom/len(df) - det/len(df))*100)
-```
-
-## 🤝 Contribuição
-
-Feedback e melhorias são bem-vindos! Faça um fork, ajustes e abra um pull request.
+Este projeto é uma aplicação completa de análise de satisfação de usuários (**CSAT – Customer Satisfaction**) desenvolvida para a MostraTec, utilizando técnicas e ferramentas de Ciência de Dados. A aplicação atende todas as etapas obrigatórias do projeto: coleta de dados, pré-processamento, análise exploratória, modelagem básica e visualização.
 
 ---
 
-Para MostraTec 2025
+## 🎯 Objetivo
+
+Desenvolver uma aplicação funcional que utiliza técnicas de Ciência de Dados para coletar, analisar e visualizar métricas de satisfação dos usuários da MostraTec.
+
+---
+
+## 🚀 Funcionalidades Principais
+
+### Front-end Web (HTML/CSS/JS)
+
+* Página **Home** (`index.html`) com QR Code, botão para iniciar avaliação e engrenagem para acesso ao **Painel Administrativo**.
+* Página de **Cadastro** (`cadastro.html`) para captura de nome, papel (Aluno/Professor/Visitante), consentimento obrigatório LGPD e telefone com validação.
+* Página **Survey** (`survey.html`) para coleta de notas (emojis) e comentários opcionais válidos para qualquer nota.
+
+### Painel Administrativo (Bootstrap)
+
+* Acesso via engrenagem no menu superior da página Home (`index.html`).
+* Autenticação segura com credenciais padrão (usuário: `admin`, senha: `admin`).
+* Dashboard com gráficos, métricas gerais e detalhadas sobre avaliações.
+* Visualização completa das avaliações realizadas.
+* Funcionalidade para sorteio randômico de um avaliador válido com telefone.
+
+### Back-end (Node.js/Express)
+
+* Servidor com endpoints seguros para validação e armazenamento dos dados.
+* Autenticação com sessões gerenciadas.
+* Armazenamento persistente em SQLite (`data.db`).
+
+### Análise de Dados (Python)
+
+* Script `generate_reports.py` responsável pela limpeza, pré-processamento e análises:
+
+  * Remoção automática de duplicidades por telefone.
+  * Geração automática de métricas, histogramas e resumos.
+
+---
+
+## 📁 Estrutura Atualizada do Projeto
+
+```
+MOSTRATEC-CSAT-ANALYTICS/
+│
+├─ analysis/
+│  ├─ csat_analysis.ipynb        # Notebook Python para análises adicionais
+│  └─ generate_reports.py        # Script Python para geração de relatórios
+│
+├─ backend/
+│  ├─ app.js                     # Servidor Express
+│  ├─ data.db                    # Banco SQLite
+│  ├─ db.js                      # Configuração SQLite
+│  ├─ package.json               # Dependências Node
+│  └─ public/
+│     ├─ admin/
+│     │  ├─ dashboard.html       # Dashboard Admin (Bootstrap)
+│     │  ├─ evaluations.html     # Avaliações Admin (Bootstrap)
+│     │  ├─ login.html           # Login Admin (Bootstrap)
+│     │  ├─ sorteio.html         # Sorteio Admin (Bootstrap)
+│     ├─ analysis/
+│     │  ├─ bar_by_role.png      # Gráfico por papel
+│     │  ├─ histogram.png        # Histograma de notas
+│     │  ├─ metrics.txt          # Métricas gerais
+│     │  └─ role_summary.json    # Resumo por papel
+│     ├─ assets/
+│     │  ├─ emojis/              # Emojis utilizados no survey
+│     │  ├─ mostratec-header.png # Cabeçalho MostraTec
+│     │  └─ qrcode.png           # QR Code principal
+│     ├─ admin.css               # Estilos específicos do Admin
+│     ├─ cadastro.html
+│     ├─ index.html
+│     ├─ script.js
+│     ├─ style.css
+│     └─ survey.html
+│
+├─ submissions.json              # Backup JSON
+├─ .gitignore
+├─ pyvenv.cfg
+└─ README.md
+```
+
+---
+
+## ⚙️ Instalação e Execução
+
+### Configuração do Ambiente Node.js
+
+```bash
+cd backend
+npm install
+npm start
+```
+
+Abra no navegador: `http://localhost:3000`
+
+### Configuração do Ambiente Python
+
+Use um ambiente virtual:
+
+```bash
+python -m venv venv
+source venv/bin/activate # Linux/Mac
+.\venv\Scripts\activate # Windows
+pip install pandas numpy matplotlib
+
+# Gerar relatórios de análise
+python analysis/generate_reports.py
+```
+
+---
+
+## 🔍 Regras de Negócio
+
+* Consentimento LGPD obrigatório para participação.
+* Validação do telefone para evitar duplicidades.
+* Comentários opcionais válidos para qualquer nota.
+* Login administrativo via menu da Home com credenciais padrão (`admin`/`admin`).
+
+---
+
+## 📡 Endpoints da API
+
+| Método | Endpoint           | Descrição                         |
+| ------ | ------------------ | --------------------------------- |
+| GET    | `/api/check-phone` | Verifica duplicidade de telefone  |
+| POST   | `/api/submit`      | Envio dos dados da avaliação      |
+| GET    | `/api/evaluations` | Recupera todas avaliações em JSON |
+
+Exemplo:
+
+```json
+POST /api/submit
+{
+  "name": "João Silva",
+  "role": "aluno",
+  "consent": 1,
+  "phone": "(34) 91234-5678",
+  "rating": 5,
+  "comment": null
+}
+```
+
+---
+
+## 📈 Análise Exploratória e Visualização
+
+O script Python `generate_reports.py` gera automaticamente:
+
+* `histogram.png`: Distribuição das notas.
+* `bar_by_role.png`: Avaliações segmentadas por papel.
+* `metrics.txt`: Métricas gerais (NPS).
+* `role_summary.json`: Resumo detalhado por tipo de usuário.
+
+---
+
+## 🎥 Apresentação Final
+
+* Demonstre o fluxo completo da aplicação (Home → Cadastro → Survey).
+* Demonstre login e funcionalidades do painel administrativo.
+* Explique brevemente os insights obtidos pela análise exploratória.
+
+---
+
+> ## 🧑‍🎓 Equipe do Trabalho
+
+| Nome                      | RA      |
+| ------------------------- | ------- |
+| Andrey Pereira Silva      | 5160888 |
+| Bruna Barbosa Carrijo     | 5160711 |
+| Lana Urzedo               | 5161886 |
+| Matheus Santana Gonçalves | 1157671 |
+
+Desenvolvido para a disciplina de Ciência de Dados – Uniube 2025.
