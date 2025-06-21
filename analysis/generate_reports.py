@@ -1,22 +1,29 @@
 import sqlite3, pandas as pd, matplotlib.pyplot as plt, os, json
 
 conn = sqlite3.connect('../backend/data.db')
-df = pd.read_sql_query('SELECT * FROM evaluations', conn)
-df = df.drop_duplicates(subset='phone', keep='first')
+df_all = pd.read_sql_query('SELECT * FROM evaluations', conn)
+original_total = len(df_all)
+df = df_all.drop_duplicates(subset='phone', keep='first')
+filtered_total = len(df)
+duplicados = original_total - filtered_total
 
 outdir = '../backend/public/analysis'
 os.makedirs(outdir, exist_ok=True)
 
-total = len(df)
+total = filtered_total
 soma_notas = df['rating'].sum()
 prom = df[df.rating >= 4].shape[0]
+neutros = df[df.rating == 3].shape[0]
 det = df[df.rating <= 2].shape[0]
 nps = (prom/total - det/total) * 100
 
 with open(os.path.join(outdir,'metrics.txt'),'w', encoding='utf-8') as f:
-    f.write(f'Total de respostas: {total}\n')
+    f.write(f'Total de avaliações recebidas: {original_total}\n')
+    f.write(f'Avaliações únicas (consideradas): {filtered_total}\n')
+    f.write(f'Avaliações duplicadas descartadas: {duplicados}\n\n')
     f.write(f'Soma de notas: {soma_notas}\n')
     f.write(f'Promotores: {prom}\n')
+    f.write(f'Neutros: {neutros}\n')
     f.write(f'Detratores: {det}\n')
     f.write(f'NPS estimado: {nps:.1f}%\n')
 

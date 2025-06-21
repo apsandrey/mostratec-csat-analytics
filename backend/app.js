@@ -31,9 +31,18 @@ app.post('/admin/login', (req, res) => {
   res.redirect('/admin/login')
 })
 
-app.get('/admin/dashboard', requireAuth, (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/admin/dashboard.html'))
-})
+const { exec } = require('child_process');
+
+app.get('/admin/dashboard', (req, res) => {
+  exec('python ../analysis/generate_reports.py', (err, stdout, stderr) => {
+    if (err) {
+      console.error('Erro ao gerar os relatórios:', stderr);
+      return res.status(500).send('Erro ao gerar os relatórios.');
+    }
+    console.log('Relatórios atualizados com sucesso.');
+    res.sendFile(__dirname + '/public/admin/dashboard.html');
+  });
+});
 
 app.post('/admin/logout', (req, res) => {
   req.session.destroy(() => res.redirect('/admin/login'))
